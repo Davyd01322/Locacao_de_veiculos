@@ -1,0 +1,16 @@
+package project;
+
+public class CarroDePasseio extends MeiosDeTransporte{
+	
+	CarroDePasseio(String marca, String modelo, String cor, String placa){
+		super.marca = marca;
+		
+	}
+	
+	@Override
+	public String toString() {
+		String text = "";
+		
+		return text;
+	}
+}

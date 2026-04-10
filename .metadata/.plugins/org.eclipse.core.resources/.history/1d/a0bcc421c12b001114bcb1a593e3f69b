@@ -1,0 +1,90 @@
+package project;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+
+public class LocadoraDeVeiculos {
+	private Map<ArrayList,Integer> disponiveis;
+	private List<MeiosDeTransporte> alugados;
+	
+	LocadoraDeVeiculos(){
+		disponiveis = new HashMap<>();
+		alugados = new ArrayList<>();
+		
+		ArrayList<MeiosDeTransporte> carros = new ArrayList<>();
+		
+		ArrayList<MeiosDeTransporte> motos = new ArrayList<>();
+		
+		ArrayList<MeiosDeTransporte> onibus = new ArrayList<>();
+		
+		ArrayList<MeiosDeTransporte> caminhao = new ArrayList<>();
+	}
+	
+	public void novoVeiculo(MeiosDeTransporte v) {
+		String tipo = v.getTipo();
+		
+		switch(tipo){
+			case "carro de passeio":
+				veiculos.get(0).add(v);
+				break;
+			case "caminhão":
+				veiculos.get(3).add(v);
+				break;
+			case "ônibus":
+				veiculos.get(2).add(v);
+				break;
+			case "moto":
+				veiculos.get(1).add(v);
+				break;
+			default:
+				System.out.println("Tipo de veiculo não identificado");
+				break;
+		}
+		
+		if(disponiveis.containsKey(v.getModelo())){
+			disponiveis.replace(v.getModelo(), disponiveis.get(v.getModelo()) + 1);
+		}
+		else {
+			disponiveis.put(v.getModelo(), 1);
+		}
+	}
+	
+	public void Alugar(MeiosDeTransporte v) {
+		switch(v.getTipo()) {
+			case "carro":
+				if(veiculos.get(0).isEmpty()) {
+					System.out.println("Não há mais carros disponíveis para alugar");
+				}
+				else {
+					if(disponiveis.get(v.getModelo()) == 0) {
+						System.out.println(String.format("o modelo %s não está mais disponivel", v.getModelo()));
+					}
+					else {
+						veiculos.get(0).remove(0);
+						alugados.add(v);
+						disponiveis.replace(v.getModelo(), disponiveis.get(v.getModelo()) - 1);
+					}
+				}
+				break;
+			case "moto":
+				if(veiculos.get(1).isEmpty()) {
+					System.out.println("Não há mais motos disponíveis para alugar");
+				}
+				break;
+			case "onibus":
+				if(veiculos.get(2).isEmpty()) {
+					System.out.println("Não há mais onibus disponíveis para alugar");
+				}
+				break;
+			case "caminhao":
+				if(veiculos.get(3).isEmpty()) {
+					System.out.println("Não há mais caminhões disponíveis para alugar");
+				}
+				break;
+			default:
+				System.out.println("Tipo do veiculo não identificado");
+		}
+	}
+}

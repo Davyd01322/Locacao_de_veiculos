@@ -1,0 +1,126 @@
+package project;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+
+public class LocadoraDeVeiculos {
+	private Map<String,ArrayList<MeiosDeTransporte>> disponiveis;
+	private List<MeiosDeTransporte> alugados;
+	
+	LocadoraDeVeiculos(){
+		disponiveis = new HashMap<>();
+		alugados = new ArrayList<>();
+		
+		ArrayList<MeiosDeTransporte> carros = new ArrayList<>();
+		disponiveis.put("carros", carros);
+		
+		ArrayList<MeiosDeTransporte> motos = new ArrayList<>();
+		disponiveis.put("motos", motos);
+		
+		ArrayList<MeiosDeTransporte> onibus = new ArrayList<>();
+		disponiveis.put("onibus", onibus);
+		
+		ArrayList<MeiosDeTransporte> caminhao = new ArrayList<>();
+		disponiveis.put("caminhoes", caminhao);
+	}
+	
+	public void novoVeiculo(MeiosDeTransporte v) {
+		String tipo = v.getTipo();
+		
+		switch(tipo){
+			case "carro de passeio":
+				disponiveis.get("carros").add(v);
+				break;
+			case "caminhão":
+				disponiveis.get("caminhoes").add(v);
+				break;
+			case "ônibus":
+				disponiveis.get("onibus").add(v);
+				break;
+			case "moto":
+				disponiveis.get("moto").add(v);
+				break;
+			default:
+				System.out.println("Tipo de veiculo não identificado");
+				break;
+		}
+	}
+	
+	public void Alugar(MeiosDeTransporte v){
+		String tipo = v.getTipo();
+		boolean aux = true;
+		
+		for(int i = 0; i < disponiveis.get(tipo).size() && aux; i++) {
+			if(disponiveis.get(tipo).get(i).getModelo().equals(v.getModelo())) {
+				alugados.add(disponiveis.get(tipo).get(i));
+				disponiveis.get(tipo).remove(i);
+				i = disponiveis.get(tipo).size();
+				aux = false;
+			}
+		}
+		
+		if(aux) {
+			System.out.println(String.format("O modelo %s não está disponivel",v.getModelo()));
+		}
+	}
+	
+	public void Devolver(MeiosDeTransporte v){
+		String tipo = v.getTipo();
+		boolean aux = true;
+		
+		for(int i = 0; i < alugados.size() && aux; i++) {
+			if(v.getModelo().equals(alugados.get(i).getModelo())) {
+				disponiveis.get(tipo).add(v);
+				alugados.remove(i);
+				aux = false;
+			}
+		}
+		
+		if(aux) {
+			System.out.println(String.format("O veiculo de modelo %s não foi alugado, você cometeu um engano.", v.getModelo()));
+		}
+	}
+	
+	public void venderVeiculo(MeiosDeTransporte v) {
+		String tipo = v.getTipo();
+		boolean aux = true;
+		
+		for(int i = 0; i < disponiveis.get(tipo).size() && aux; i++) {
+			if(){
+				
+			}
+		}
+		
+	}
+	
+	public String toString(){
+		String text = "";
+		
+		text += "Veiculos disponiveis";
+		text += "CARROS";
+		for(int i = 0; i < disponiveis.get("carros").size(); i++) {
+			text += disponiveis.get("carros").get(i).toString();
+		}
+		text += "MOTOS";
+		for(int i = 0; i < disponiveis.get("motos").size(); i++) {
+			text += disponiveis.get("motos").get(i).toString();
+		}
+		text += "CAMINHÕES";
+		for(int i = 0; i < disponiveis.get("caminhao").size(); i++) {
+			text += disponiveis.get("caminhao").get(i).toString();
+		}
+		text += "ÔNIBUS";
+		for(int i = 0; i < disponiveis.get("onibus").size(); i++) {
+			text += disponiveis.get("onibus").get(i).toString();
+		}
+		
+		text += "Veiculos alugados";
+		for(int i = 0; i < alugados.size(); i++) {
+			text += alugados.get(i).toString();
+		}
+		
+		return text;
+	}
+}

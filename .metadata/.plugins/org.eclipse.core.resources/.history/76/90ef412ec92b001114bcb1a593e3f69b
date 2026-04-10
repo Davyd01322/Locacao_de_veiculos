@@ -1,0 +1,78 @@
+package project;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+
+public class LocadoraDeVeiculos {
+	private Map<String,ArrayList<MeiosDeTransporte>> disponiveis;
+	private List<MeiosDeTransporte> alugados;
+	
+	LocadoraDeVeiculos(){
+		disponiveis = new HashMap<>();
+		alugados = new ArrayList<>();
+		
+		ArrayList<MeiosDeTransporte> carros = new ArrayList<>();
+		disponiveis.put("carros", carros);
+		
+		ArrayList<MeiosDeTransporte> motos = new ArrayList<>();
+		disponiveis.put("motos", motos);
+		
+		ArrayList<MeiosDeTransporte> onibus = new ArrayList<>();
+		disponiveis.put("onibus", onibus);
+		
+		ArrayList<MeiosDeTransporte> caminhao = new ArrayList<>();
+		disponiveis.put("caminhoes", caminhao);
+	}
+	
+	public void novoVeiculo(MeiosDeTransporte v) {
+		String tipo = v.getTipo();
+		
+		switch(tipo){
+			case "carro de passeio":
+				disponiveis.get("carros").add(v);
+				break;
+			case "caminhão":
+				disponiveis.get("caminhoes").add(v);
+				break;
+			case "ônibus":
+				disponiveis.get("onibus").add(v);
+				break;
+			case "moto":
+				disponiveis.get("moto").add(v);
+				break;
+			default:
+				System.out.println("Tipo de veiculo não identificado");
+				break;
+		}
+	}
+	
+	public void Alugar(MeiosDeTransporte v){
+		switch(v.getTipo()) {
+			case "carro de passeio":
+				for(int i = 0; i < disponiveis.get("carros").size(); i++) {
+					if(disponiveis.get("carros").get(i).getModelo().equals(v.getModelo())) {
+						alugados.add(disponiveis.get("carros").get(i));
+						disponiveis.get("carros").remove(i);
+						i = disponiveis.get("carros").size();
+					}
+				}
+				break;
+			case "moto":
+				break;
+			case "ônibus":
+				break;
+			case "caminhão":
+				break;
+		}
+	}
+	
+	public void Devolver(MeiosDeTransporte v) {}
+	
+	public String toString(){
+		String text = "";
+		return text;
+	}
+	
+}

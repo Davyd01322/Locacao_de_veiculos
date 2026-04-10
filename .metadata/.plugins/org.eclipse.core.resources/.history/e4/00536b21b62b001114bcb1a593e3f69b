@@ -1,0 +1,10 @@
+package project;
+
+public class CarroDePasseio extends MeiosDeTransporte{
+	@Override
+	public String toString() {
+		String text = "";
+		
+		return text;
+	}
+}

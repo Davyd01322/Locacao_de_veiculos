@@ -1,0 +1,34 @@
+package project;
+
+public class Moto extends MeiosDeTransporte{
+	
+	Moto(String marca, String modelo, String cor, String placa){
+		super.marca = marca;
+		super.modelo = modelo;
+		super.cor = cor;
+		super.placa = placa;
+	}
+	
+	@Override
+	public String toString() {
+		String text = "\n========================\n";
+		text += "Tipo: Moto\n";
+		text += "Placa:" + super.placa + "\n";
+		text += "Modelo:" + super.modelo + "\n";
+		text += "Marca:" + super.marca + "\n";
+		text += "Cor:" + super.cor + "\n";
+		text += "========================\n";
+
+		return text;
+	}
+	
+	@Override
+	public String getTipo() {
+		return "moto";
+	}
+	
+	@Override
+	public double valorMulta() {
+		return super.getNMultas() * 7;
+	}
+}

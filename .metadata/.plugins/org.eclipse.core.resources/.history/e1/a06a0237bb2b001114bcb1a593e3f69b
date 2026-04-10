@@ -1,0 +1,12 @@
+package project;
+
+public abstract class MeiosDeTransporte {
+	protected String marca;
+	protected String modelo;
+	protected String cor;
+	protected String placa;
+	
+	public abstract String toString();
+	public abstract String getTipo();
+	
+}

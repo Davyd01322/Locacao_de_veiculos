@@ -1,0 +1,52 @@
+package project;
+
+import java.util.List;
+import java.util.ArrayList;
+import java.util.Map;
+import java.util.HashMap;
+
+public class LocadoraDeVeiculos {
+	private Map<String,ArrayList> disponiveis;
+	private List<MeiosDeTransporte> alugados;
+	
+	LocadoraDeVeiculos(){
+		disponiveis = new HashMap<>();
+		alugados = new ArrayList<>();
+		
+		ArrayList<MeiosDeTransporte> carros = new ArrayList<>();
+		
+		ArrayList<MeiosDeTransporte> motos = new ArrayList<>();
+		
+		ArrayList<MeiosDeTransporte> onibus = new ArrayList<>();
+		
+		ArrayList<MeiosDeTransporte> caminhao = new ArrayList<>();
+	}
+	
+	public void novoVeiculo(MeiosDeTransporte v) {
+		String tipo = v.getTipo();
+		
+		switch(tipo){
+			case "carro de passeio":
+				break;
+			case "caminhão":
+				break;
+			case "ônibus":
+				break;
+			case "moto":
+				break;
+			default:
+				System.out.println("Tipo de veiculo não identificado");
+				break;
+		}
+	}
+	
+	public void Alugar(MeiosDeTransporte v) {}
+	
+	public void Devolver(MeiosDeTransporte v) {}
+	
+	public String toString(){
+		String text = "";
+		return text;
+	}
+	
+}

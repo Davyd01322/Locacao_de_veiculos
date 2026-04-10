@@ -1,0 +1,4 @@
+INDEX VERSION 1.134+C:\Users\Davep\Java\comunicacao_entre_processos\.metadata\.plugins\org.eclipse.jdt.core
+3809624651.index
+1865797976.index
+3581163120.index

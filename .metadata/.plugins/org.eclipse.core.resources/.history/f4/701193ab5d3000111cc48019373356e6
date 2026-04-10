@@ -1,0 +1,33 @@
+package project;
+
+import java.io.IOException;
+import java.io.OutputStream;
+import java.io.PrintStream;
+
+import project.MeiosDeTransporte;
+
+public class MeiosDeTransporteOutputStream {
+	private OutputStream op;
+	private MeiosDeTransporte[] transportes;
+	
+	public MeiosDeTransporteOutputStream() {}
+	
+	public MeiosDeTransporteOutputStream(MeiosDeTransporte[] m, OutputStream os) {
+		this.transportes = m;
+		this.op = os;
+	}
+	
+	public void writeSystem() {
+		PrintStream opLocal = new PrintStream(op);
+		
+		int qtdVeiculos = this.transportes.length;
+		opLocal.println("Número de veiculos: " + qtdVeiculos);
+		
+		for(MeiosDeTransporte transporte : transportes) {
+			if(transporte != null) {
+				transporte.toString();
+			}
+		}
+	}
+	
+}

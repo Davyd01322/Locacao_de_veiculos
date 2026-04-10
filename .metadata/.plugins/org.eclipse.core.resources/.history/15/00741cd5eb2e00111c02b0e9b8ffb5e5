@@ -1,0 +1,5 @@
+package project;
+
+public interface Locacao {
+	public void novoVeiculo(MeiosDeTransporte v);
+}
