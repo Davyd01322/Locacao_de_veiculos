@@ -43,11 +43,10 @@ public class MeiosDeTransporteOutputStream {
 	
 	public void writeFile() {
 		try{
-			byte buffer[] = new byte[this.transportes.length];
-			for(int i = 0; i < this.transportes.length; i++){
-				buffer = this.transportes[i].toString().getBytes();
-				this.op.write(buffer);
-			}
+			ObjectOutputStream objOutput = new ObjectOutputStream(op);
+			objOutput.writeObject(this.transportes);
+			objOutput.flush();
+			objOutput.close();
 		} catch(IOException e){
 			System.out.println("ERRO ao tentar escrever o arquivo binário arquivo.txt");
 		} finally{
@@ -60,52 +59,18 @@ public class MeiosDeTransporteOutputStream {
 			}
 		}
 	}
-	
-	/*
-	public void writeJSON(){
-		for(int i = 0; i < this.transportes.length; i++){
-			ObjectToJson(this.transportes[i]);
-		}
-	}
-
-	private static String ObjectToJson(MeiosDeTransporte transporte){
-		try{
-			XStream xstream = new XStream(new JettinsonMappedXmlDriver());
-			xstream.setMode(XStream.NO_REFERENCES);
-			xstream.alias("transporte", MeiosDeTransporte.class);
-
-			return xstream.toXML();
-		} catch(Exception e){
-			System.err.println("Erro ao converter para JSON");
-			e.printStackTrace();
-			throw new RuntimeException();
-		}
-	}
-	*/
 
 	public void writeTCP() {
-		// Serialização de um vetor de objetos
-		gravarArquivoBinario(transportes, "serial");
-
-		int serverPort = 7896;
-		
 		try(
-			Socket s = new Socket("localhost", serverPort);
-			DataOutputStream out = new DataOutputStream(s.getOutputStream());
-			FileInputStream fileStr = new FileInputStream("serial");
+			Socket s = new Socket("10.11.111.26", 7897);
+			ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 		){
-			byte[] buffer = new byte[4096];
-			int bytesRead;
-
-			while((bytesRead = fileStr.read(buffer)) != -1){
-				out.write(buffer, 0, bytesRead);
-			}
-
+			out.writeObject(this.transportes[0]);
 			out.flush();
+			out.close();
 		} catch(IOException e){
 			System.out.println("Erro: " + e.getMessage());
 		}
-
 	}
 
 	private void gravarArquivoBinario(MeiosDeTransporte[] m, String nomeArq){

@@ -7,7 +7,7 @@ import java.util.HashMap;
 
 public class LocadoraDeVeiculos implements Locacao{
 	private Map<String,ArrayList<MeiosDeTransporte>> disponiveis;
-	private List<MeiosDeTransporte> alugados;
+	private ArrayList<MeiosDeTransporte> alugados;
 	
 	LocadoraDeVeiculos(){
 		disponiveis = new HashMap<>();
@@ -47,8 +47,60 @@ public class LocadoraDeVeiculos implements Locacao{
 				break;
 		}
 	}
+
+	public MeiosDeTransporte Alugar(String s){
+		int index = Integer.parseUnsignedInt(s);
+		int adjust = 0;
+
+		adjust = index - this.disponiveis.get("carros").size();
+
+		if(adjust < 0){
+			getVeiculo(this.disponiveis.get("carros").get(index - 1));
+		}
+		else{
+			if(adjust == 0){
+				getVeiculo(this.disponiveis.get("carros").get(adjust));
+			}
+		}
+
+		adjust = index - (this.disponiveis.get("carros").size() + this.disponiveis.get("motos").size());
+
+		if(adjust < 0){
+			adjust = index - this.disponiveis.get("carros").size();
+			getVeiculo(this.disponiveis.get("motos").get(adjust - 1));
+		}
+		else{
+			if(adjust == 0){
+				getVeiculo(this.disponiveis.get("motos").get(adjust));
+			}
+		}
+
+		adjust = index - (this.disponiveis.get("carros").size() + this.disponiveis.get("motos").size() + this.disponiveis.get("caminhoes").size());
+		if(adjust < 0){
+			adjust = index - (this.disponiveis.get("carros").size() + this.disponiveis.get("motos").size());
+			getVeiculo(this.disponiveis.get("caminhoes").get(adjust - 1));
+		}
+		else{
+			if(adjust == 0){
+				getVeiculo(this.disponiveis.get("caminhoes").get(adjust));
+			}
+		}
+
+		adjust = index - (this.disponiveis.get("carros").size() + this.disponiveis.get("motos").size() + this.disponiveis.get("caminhoes").size() + this.disponiveis.get("onibus").size());
+		if(adjust < 0){
+			adjust = index - (this.disponiveis.get("carros").size() + this.disponiveis.get("motos").size() + this.disponiveis.get("caminhoes").size());
+			getVeiculo(this.disponiveis.get("onibus").get(adjust - 1));
+		}
+		else{
+			if(adjust == 0){
+				getVeiculo(this.disponiveis.get("onibus").get(adjust));
+			}
+		}
+
+		return this.alugados.getLast();
+	}
 	
-	public void Alugar(MeiosDeTransporte v){
+	private void getVeiculo(MeiosDeTransporte v){
 		String tipo = v.getTipo();
 		boolean aux = true;
 		
@@ -101,23 +153,32 @@ public class LocadoraDeVeiculos implements Locacao{
 	
 	public String listarDisponiveis(){
 		String text = "";
-		
+		int index = 1;
+
 		text += "Veiculos disponiveis\n";
-		text += "CARROS";
+		text += "CARROS\n";
 		for(int i = 0; i < disponiveis.get("carros").size(); i++) {
+			text += String.valueOf(index) + ". ";
 			text += disponiveis.get("carros").get(i).toString();
+			index += 1;
 		}
-		text += "MOTOS";
+		text += "MOTOS\n";
 		for(int i = 0; i < disponiveis.get("motos").size(); i++) {
+			text += String.valueOf(index) + ". ";
 			text += disponiveis.get("motos").get(i).toString();
+			index += 1;
 		}
-		text += "CAMINHÕES";
+		text += "CAMINHÕES\n";
 		for(int i = 0; i < disponiveis.get("caminhoes").size(); i++) {
+			text += String.valueOf(index) + ". ";
 			text += disponiveis.get("caminhoes").get(i).toString();
+			index += 1;
 		}
-		text += "ÔNIBUS";
+		text += "ÔNIBUS\n";
 		for(int i = 0; i < disponiveis.get("onibus").size(); i++) {
+			text += String.valueOf(index) + ". ";
 			text += disponiveis.get("onibus").get(i).toString();
+			text += 1;
 		}
 
 		return text;
@@ -148,6 +209,7 @@ public class LocadoraDeVeiculos implements Locacao{
 		for(int i = 0; i < alugados.size(); i++) {
 			text += alugados.get(i).toString();
 		}
+		text += "\n";
 		
 		return text;
 	}

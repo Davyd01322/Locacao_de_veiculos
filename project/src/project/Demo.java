@@ -24,27 +24,27 @@ public class Demo{
             OutputStream os = new FileOutputStream("arquivo.txt");
             MeiosDeTransporteOutputStream op = new MeiosDeTransporteOutputStream(m,os);
 
-            //op.writeFile();
+            op.writeFile();
             //op.writeSystem();
-            op.writeTCP();
+            //op.writeTCP();
 
             // desserialização
-            try(ObjectInputStream objInStrm = new ObjectInputStream(new FileInputStream("serial"))){
+            try(ObjectInputStream objInStrm = new ObjectInputStream(new FileInputStream("arquivo.txt"))){
                 try{
-                MeiosDeTransporte veiculo = (MeiosDeTransporte) objInStrm.readObject();
+                MeiosDeTransporte[] veiculos = (MeiosDeTransporte[]) objInStrm.readObject();
                 
-                while(veiculo != null){
+                for(MeiosDeTransporte veiculo : veiculos){
                     System.out.println(veiculo);
                     System.out.println(":)");
-                    veiculo = (MeiosDeTransporte) objInStrm.readObject();
                 }
 
+                objInStrm.close();
                 } catch(ClassNotFoundException e){
                     System.out.println("Classe não encontrada " + e);
                 }
             } catch(IOException e){
                 System.out.println("Ocorreu um erro ao tentar recuperar o objeto serializado " + e);
-            } 
+            }
         } catch(FileNotFoundException e){
             System.out.println("O arquivo não foi encontrado");
         }

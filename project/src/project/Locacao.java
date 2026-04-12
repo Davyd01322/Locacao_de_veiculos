@@ -2,7 +2,7 @@ package project;
 
 public interface Locacao {
 	void novoVeiculo(MeiosDeTransporte v);
-	void Alugar(MeiosDeTransporte v);
+	MeiosDeTransporte Alugar(String s);
 	void Devolver(MeiosDeTransporte v);
 	void venderVeiculo(MeiosDeTransporte v);
 }

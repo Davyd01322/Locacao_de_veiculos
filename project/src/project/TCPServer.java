@@ -6,24 +6,6 @@ import java.util.ArrayList;
 
 public class TCPServer{
     public static void main(String args[]){
-        LocadoraDeVeiculos locadora = new LocadoraDeVeiculos();
-        ArrayList<MeiosDeTransporte> transportes = new ArrayList<>();
-
-        transportes.add(new Moto("Kawasaki", "H2", "Preta", "BL4CK"));
-        transportes.add(new CarroDePasseio("Ferrari", "812superfast", "Vermelho Maranelo", "1234ABC"));
-        transportes.add(new Onibus("Wolskwagem", "Scolarship", "Amarelo", "5CH00L"));
-        transportes.add(new Caminhao("Mercedes", "Bigger", "Prata", "B1GG3R"));
-
-        for(int i = 0; i < transportes.size(); i++){
-            locadora.novoVeiculo(transportes.get(i));            
-        }
-
-        System.out.println("Seja bem vindo ao sistema de aluguel de carros");
-        System.out.println("Selecione uma opção");
-        System.out.println("1. Listar todos os veiculos");
-        System.out.println("2. Alugar veiculo");
-        System.out.println("3. Devolver veiculo");
-
         try{
             System.out.println("Servidor inicializado");
             int serverPort = 7896;
@@ -43,8 +25,10 @@ public class TCPServer{
 
 class Connection extends Thread{
     DataInputStream in;
-    OutputStream out;
+    DataOutputStream out;
     Socket clientSocket;
+    LocadoraDeVeiculos locadora;
+    ArrayList<MeiosDeTransporte> transportes;
 
     public Connection(Socket aClientSocket){
         try{
@@ -52,6 +36,19 @@ class Connection extends Thread{
             in = new DataInputStream(clientSocket.getInputStream());
             out = new DataOutputStream(clientSocket.getOutputStream());
             this.start();
+
+            this.locadora = new LocadoraDeVeiculos();
+            this.transportes = new ArrayList<>();
+
+            transportes.add(new Moto("Kawasaki", "H2", "Preta", "BL4CK"));
+            transportes.add(new CarroDePasseio("Ferrari", "812superfast", "Vermelho Maranelo", "1234ABC"));
+            transportes.add(new Onibus("Wolskwagem", "Scolarship", "Amarelo", "5CH00L"));
+            transportes.add(new Caminhao("Mercedes", "Bigger", "Prata", "B1GG3R"));
+
+            for(int i = 0; i < transportes.size(); i++){
+                locadora.novoVeiculo(transportes.get(i));            
+            }
+
         } catch (IOException e){
             System.out.println("Connection: " + e.getMessage());
         }
@@ -59,24 +56,61 @@ class Connection extends Thread{
 
     public void run(){
         try{
-            String command = in.readUTF();
-            System.out.println("~" + command);
+            while(true){        
+                out.writeUTF("6");
+                out.writeUTF("Seja bem vindo ao sistema de aluguel de carros");
+                out.writeUTF("Selecione uma opção");
+                out.writeUTF("1. Listar todos os veiculos");
+                out.writeUTF("2. Alugar veiculo");
+                out.writeUTF("3. Devolver veiculo");
+                out.writeUTF("4. Limpar a tela");
+                out.writeUTF("end");
 
-            switch(command){
-                case "1":
-                    System.out.println(toString());
-                    break;
-                case "2":
-                    System.out.println("Qual veiculo você deseja alugar?");
-                    
+                String command = in.readUTF();
+                System.out.println("~" + command);
 
-                    break;
-                case "3":
-                    break;
-                default:
-                    break;
+                switch(command){
+                    case "1":
+                        out.writeUTF("1");
+                        out.writeUTF(locadora.toString());
+                        out.writeUTF("end1");
+                        break;
+                    case "2":
+                        out.writeUTF("2");
+                        out.writeUTF(locadora.listarDisponiveis());
+                        out.writeUTF("Qual veiculo você deseja alugar?");
+                        out.writeUTF("end2");
+                        String answer = in.readUTF();
+
+                        System.out.println("Indice do carro escolhido: " + answer);
+
+                        MeiosDeTransporte m[] = new MeiosDeTransporte[1];
+                        m[0] = locadora.Alugar(answer);
+                        System.out.println(m[0].toString());
+
+                        File arq = new File("arquivo.txt");
+                        arq.delete();
+                        arq.createNewFile();
+                        OutputStream os = new FileOutputStream(arq);
+                        
+                        MeiosDeTransporteOutputStream mos = new MeiosDeTransporteOutputStream(m,os);
+                        mos.writeTCP();
+                        break;
+                    case "3":
+                        out.writeUTF("1");
+                        out.writeUTF("Obrigado!");
+                        out.writeUTF("end3");
+                        break;
+                    case "4":
+                        out.writeUTF("1");
+                        out.writeUTF("\033[H\033[2j");
+                        out.writeUTF("end4");
+                        break;
+                    default:
+                        System.out.println("Comando inválido");
+                        break;
+                }
             }
-
         } catch(EOFException e){
             System.out.println("EOF: " + e.getMessage());
         } catch(IOException e){
