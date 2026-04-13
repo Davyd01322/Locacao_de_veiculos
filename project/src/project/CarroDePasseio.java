@@ -11,7 +11,7 @@ public class CarroDePasseio extends MeiosDeTransporte{
 	
 	@Override
 	public String toString() {
-		String text = "\n========================\n";
+		String text = "========================\n";
 		text += "Tipo: Carro de passeio\n";
 		text += "Placa:" + super.placa + "\n";
 		text += "Modelo:" + super.modelo + "\n";
@@ -23,7 +23,7 @@ public class CarroDePasseio extends MeiosDeTransporte{
 	
 	@Override
 	public String getTipo() {
-		return "carro de passeio";
+		return "carro";
 	}
 	
 	@Override

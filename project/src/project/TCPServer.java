@@ -82,11 +82,8 @@ class Connection extends Thread{
                         out.writeUTF("end2");
                         String answer = in.readUTF();
 
-                        System.out.println("Indice do carro escolhido: " + answer);
-
                         MeiosDeTransporte m[] = new MeiosDeTransporte[1];
                         m[0] = locadora.Alugar(answer);
-                        System.out.println(m[0].toString());
 
                         File arq = new File("arquivo.txt");
                         arq.delete();
@@ -98,8 +95,29 @@ class Connection extends Thread{
                         break;
                     case "3":
                         out.writeUTF("1");
-                        out.writeUTF("Obrigado!");
+                        out.writeUTF("Aguardando o envio");
                         out.writeUTF("end3");
+
+                        try{
+                            ServerSocket serverSocket = new ServerSocket(7898);
+                            Socket client = serverSocket.accept();
+                            ObjectInputStream objInput = new ObjectInputStream(client.getInputStream());
+                            try{
+                                MeiosDeTransporte v = (MeiosDeTransporte) objInput.readObject();
+                                System.out.println("Recebemos o veiculo: ");
+                                System.out.println(v.toString());
+                                locadora.Devolver(v);
+                            } catch(ClassNotFoundException e){
+                                System.out.println("ClassNotFoundException: " + e.getMessage());
+                            }
+
+                            objInput.close();
+                        } catch(IOException e){
+                            System.out.println("IOException: " + e.getMessage());
+                        }
+                        out.writeUTF("1");
+                        out.writeUTF("Obrigado!");
+                        out.writeUTF("end4");
                         break;
                     case "4":
                         out.writeUTF("1");

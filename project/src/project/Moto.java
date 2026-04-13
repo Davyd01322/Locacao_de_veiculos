@@ -11,7 +11,7 @@ public class Moto extends MeiosDeTransporte{
 	
 	@Override
 	public String toString() {
-		String text = "\n========================\n";
+		String text = "========================\n";
 		text += "Tipo: Moto\n";
 		text += "Placa:" + super.placa + "\n";
 		text += "Modelo:" + super.modelo + "\n";

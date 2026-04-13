@@ -62,7 +62,7 @@ public class MeiosDeTransporteOutputStream {
 
 	public void writeTCP() {
 		try(
-			Socket s = new Socket("10.11.111.26", 7897);
+			Socket s = new Socket("10.11.111.29", 7897);
 			ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 		){
 			out.writeObject(this.transportes[0]);
@@ -75,7 +75,6 @@ public class MeiosDeTransporteOutputStream {
 
 	private void gravarArquivoBinario(MeiosDeTransporte[] m, String nomeArq){
 		File arq = new File(nomeArq);
-
 		try{
 			arq.delete();
 			arq.createNewFile();

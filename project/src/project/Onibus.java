@@ -11,7 +11,7 @@ public class Onibus extends MeiosDeTransporte{
 	
 	@Override
 	public String toString() {
-		String text = "\n========================\n";
+		String text = "========================\n";
 		text += "Tipo: Ônibus\n";
 		text += "Placa:" + super.placa + "\n";
 		text += "Modelo:" + super.modelo + "\n";
@@ -24,7 +24,7 @@ public class Onibus extends MeiosDeTransporte{
 	
 	@Override
 	public String getTipo() {
-		return "ônibus";
+		return "onibus";
 	}
 	
 	@Override

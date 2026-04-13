@@ -14,33 +14,33 @@ public class LocadoraDeVeiculos implements Locacao{
 		alugados = new ArrayList<>();
 		
 		ArrayList<MeiosDeTransporte> carros = new ArrayList<>();
-		disponiveis.put("carros", carros);
+		disponiveis.put("carro", carros);
 		
 		ArrayList<MeiosDeTransporte> motos = new ArrayList<>();
-		disponiveis.put("motos", motos);
+		disponiveis.put("moto", motos);
 		
 		ArrayList<MeiosDeTransporte> onibus = new ArrayList<>();
 		disponiveis.put("onibus", onibus);
 		
 		ArrayList<MeiosDeTransporte> caminhao = new ArrayList<>();
-		disponiveis.put("caminhoes", caminhao);
+		disponiveis.put("caminhao", caminhao);
 	}
 	
 	public void novoVeiculo(MeiosDeTransporte v) {
 		String tipo = v.getTipo();
 		
 		switch(tipo){
-			case "carro de passeio":
-				disponiveis.get("carros").add(v);
+			case "carro":
+				disponiveis.get("carro").add(v);
 				break;
-			case "caminhão":
-				disponiveis.get("caminhoes").add(v);
+			case "caminhao":
+				disponiveis.get("caminhao").add(v);
 				break;
-			case "ônibus":
+			case "onibus":
 				disponiveis.get("onibus").add(v);
 				break;
 			case "moto":
-				disponiveis.get("motos").add(v);
+				disponiveis.get("moto").add(v);
 				break;
 			default:
 				System.out.println("Tipo de veiculo não identificado");
@@ -51,49 +51,58 @@ public class LocadoraDeVeiculos implements Locacao{
 	public MeiosDeTransporte Alugar(String s){
 		int index = Integer.parseUnsignedInt(s);
 		int adjust = 0;
+		Boolean flag = false;
 
-		adjust = index - this.disponiveis.get("carros").size();
+		adjust = index - this.disponiveis.get("carro").size();
 
-		if(adjust < 0){
-			getVeiculo(this.disponiveis.get("carros").get(index - 1));
+		if(adjust < 0 && !flag){
+			getVeiculo(this.disponiveis.get("carro").get(index - 1));
+			flag = true;
 		}
 		else{
-			if(adjust == 0){
-				getVeiculo(this.disponiveis.get("carros").get(adjust));
+			if(adjust == 0 && !flag){
+				getVeiculo(this.disponiveis.get("carro").get(adjust));
+				flag = true;
 			}
 		}
 
-		adjust = index - (this.disponiveis.get("carros").size() + this.disponiveis.get("motos").size());
+		adjust = index - (this.disponiveis.get("carro").size() + this.disponiveis.get("moto").size());
 
-		if(adjust < 0){
-			adjust = index - this.disponiveis.get("carros").size();
-			getVeiculo(this.disponiveis.get("motos").get(adjust - 1));
+		if(adjust < 0 && !flag){
+			adjust = index - this.disponiveis.get("carro").size();
+			getVeiculo(this.disponiveis.get("moto").get(adjust - 1));
+			flag = true;
 		}
 		else{
-			if(adjust == 0){
-				getVeiculo(this.disponiveis.get("motos").get(adjust));
+			if(adjust == 0 && !flag){
+				getVeiculo(this.disponiveis.get("moto").get(adjust));
+				flag = true;
 			}
 		}
 
-		adjust = index - (this.disponiveis.get("carros").size() + this.disponiveis.get("motos").size() + this.disponiveis.get("caminhoes").size());
-		if(adjust < 0){
-			adjust = index - (this.disponiveis.get("carros").size() + this.disponiveis.get("motos").size());
-			getVeiculo(this.disponiveis.get("caminhoes").get(adjust - 1));
+		adjust = index - (this.disponiveis.get("carro").size() + this.disponiveis.get("moto").size() + this.disponiveis.get("caminhao").size());
+		if(adjust < 0 && !flag){
+			adjust = index - (this.disponiveis.get("carro").size() + this.disponiveis.get("moto").size());
+			getVeiculo(this.disponiveis.get("caminhao").get(adjust - 1));
+			flag = true;
 		}
 		else{
-			if(adjust == 0){
-				getVeiculo(this.disponiveis.get("caminhoes").get(adjust));
+			if(adjust == 0 && !flag){
+				getVeiculo(this.disponiveis.get("caminhao").get(adjust));
+				flag = true;
 			}
 		}
 
-		adjust = index - (this.disponiveis.get("carros").size() + this.disponiveis.get("motos").size() + this.disponiveis.get("caminhoes").size() + this.disponiveis.get("onibus").size());
-		if(adjust < 0){
-			adjust = index - (this.disponiveis.get("carros").size() + this.disponiveis.get("motos").size() + this.disponiveis.get("caminhoes").size());
-			getVeiculo(this.disponiveis.get("onibus").get(adjust - 1));
+		adjust = index - (this.disponiveis.get("carro").size() + this.disponiveis.get("moto").size() + this.disponiveis.get("caminhao").size() + this.disponiveis.get("onibus").size());
+		if(adjust < 0 && !flag){
+			adjust = index - (this.disponiveis.get("carro").size() + this.disponiveis.get("moto").size() + this.disponiveis.get("caminhao").size());
+			getVeiculo(this.disponiveis.get("onibu").get(adjust - 1));
+			flag = true;
 		}
 		else{
-			if(adjust == 0){
+			if(adjust == 0 && !flag){
 				getVeiculo(this.disponiveis.get("onibus").get(adjust));
+				flag = true;
 			}
 		}
 
@@ -108,7 +117,6 @@ public class LocadoraDeVeiculos implements Locacao{
 			if(disponiveis.get(tipo).get(i).getModelo().equals(v.getModelo())) {
 				alugados.add(disponiveis.get(tipo).get(i));
 				disponiveis.get(tipo).remove(i);
-				i = disponiveis.get(tipo).size();
 				aux = false;
 			}
 		}
@@ -157,21 +165,21 @@ public class LocadoraDeVeiculos implements Locacao{
 
 		text += "Veiculos disponiveis\n";
 		text += "CARROS\n";
-		for(int i = 0; i < disponiveis.get("carros").size(); i++) {
+		for(int i = 0; i < disponiveis.get("carro").size(); i++) {
 			text += String.valueOf(index) + ". ";
-			text += disponiveis.get("carros").get(i).toString();
+			text += disponiveis.get("carro").get(i).toString();
 			index += 1;
 		}
 		text += "MOTOS\n";
-		for(int i = 0; i < disponiveis.get("motos").size(); i++) {
+		for(int i = 0; i < disponiveis.get("moto").size(); i++) {
 			text += String.valueOf(index) + ". ";
-			text += disponiveis.get("motos").get(i).toString();
+			text += disponiveis.get("moto").get(i).toString();
 			index += 1;
 		}
 		text += "CAMINHÕES\n";
-		for(int i = 0; i < disponiveis.get("caminhoes").size(); i++) {
+		for(int i = 0; i < disponiveis.get("caminhao").size(); i++) {
 			text += String.valueOf(index) + ". ";
-			text += disponiveis.get("caminhoes").get(i).toString();
+			text += disponiveis.get("caminhao").get(i).toString();
 			index += 1;
 		}
 		text += "ÔNIBUS\n";
@@ -188,28 +196,27 @@ public class LocadoraDeVeiculos implements Locacao{
 		String text = "";
 		
 		text += "Veiculos disponiveis\n";
-		text += "CARROS";
-		for(int i = 0; i < disponiveis.get("carros").size(); i++) {
-			text += disponiveis.get("carros").get(i).toString();
+		text += "CARROS\n";
+		for(int i = 0; i < disponiveis.get("carro").size(); i++) {
+			text += disponiveis.get("carro").get(i).toString();
 		}
-		text += "MOTOS";
-		for(int i = 0; i < disponiveis.get("motos").size(); i++) {
-			text += disponiveis.get("motos").get(i).toString();
+		text += "MOTOS\n";
+		for(int i = 0; i < disponiveis.get("moto").size(); i++) {
+			text += disponiveis.get("moto").get(i).toString();
 		}
-		text += "CAMINHÕES";
-		for(int i = 0; i < disponiveis.get("caminhoes").size(); i++) {
-			text += disponiveis.get("caminhoes").get(i).toString();
+		text += "CAMINHÕES\n";
+		for(int i = 0; i < disponiveis.get("caminhao").size(); i++) {
+			text += disponiveis.get("caminhao").get(i).toString();
 		}
-		text += "ÔNIBUS";
+		text += "ÔNIBUS\n";
 		for(int i = 0; i < disponiveis.get("onibus").size(); i++) {
 			text += disponiveis.get("onibus").get(i).toString();
 		}
 		
-		text += "Veiculos alugados";
+		text += "Veiculos alugados\n";
 		for(int i = 0; i < alugados.size(); i++) {
 			text += alugados.get(i).toString();
 		}
-		text += "\n";
 		
 		return text;
 	}
