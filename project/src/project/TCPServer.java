@@ -110,7 +110,9 @@ class Connection extends Thread{
                             } catch(ClassNotFoundException e){
                                 System.out.println("ClassNotFoundException: " + e.getMessage());
                             }
-
+                            
+                            client.close();
+                            serverSocket.close();
                             objInput.close();
                         } catch(IOException e){
                             System.out.println("IOException: " + e.getMessage());

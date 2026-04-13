@@ -61,8 +61,9 @@ public class MeiosDeTransporteOutputStream {
 	}
 
 	public void writeTCP() {
+		String ipRemoto = "10.11.111.29";
 		try(
-			Socket s = new Socket("10.11.111.29", 7897);
+			Socket s = new Socket(ipRemoto, 7897);
 			ObjectOutputStream out = new ObjectOutputStream(s.getOutputStream());
 		){
 			out.writeObject(this.transportes[0]);
