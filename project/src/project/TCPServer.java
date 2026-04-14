@@ -40,11 +40,17 @@ class Connection extends Thread{
             this.locadora = new LocadoraDeVeiculos();
             this.transportes = new ArrayList<>();
 
-            transportes.add(new Moto("Kawasaki", "H2", "Preta", "BL4CK"));
-            transportes.add(new CarroDePasseio("Ferrari", "812superfast", "Vermelho Maranelo", "1234ABC"));
+            transportes.add(new Moto("Honda", "cgFan160", "Vermelha", "BL4CK"));
+            transportes.add(new Moto("Honda", "NRX160", "Preta", "D4RT2"));
+            transportes.add(new Moto("Yamaha", "xj6", "Azul", "M4D4R4"));
+            transportes.add(new CarroDePasseio("Subaru", "ImprezaWRX", "Azul", "L1GTH"));
+            transportes.add(new CarroDePasseio("Wolkswagen", "Golf", "Branco", "J0H4N"));
+            transportes.add(new CarroDePasseio("Honda", "Civic", "Prata", "M4R1K"));
+            transportes.add(new CarroDePasseio("Chevrolet", "Camaro", "Amarelo", "ER3N"));
             transportes.add(new Onibus("Wolskwagem", "Scolarship", "Amarelo", "5CH00L"));
-            transportes.add(new Caminhao("Mercedes", "Bigger", "Prata", "B1GG3R"));
-
+            transportes.add(new Caminhao("Mercedes", "Axor", "Prata", "154BEL4"));
+            transportes.add(new Caminhao("Ford", "Torqshift", "Prata", "D4K1"));
+            
             for(int i = 0; i < transportes.size(); i++){
                 locadora.novoVeiculo(transportes.get(i));            
             }
